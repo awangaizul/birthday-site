@@ -62,10 +62,10 @@ h2{font-size:clamp(1.7rem,6vw,2.8rem);color:var(--t)}
 .pic .ph{display:none;position:absolute;inset:10px 10px 30px;border-radius:6px;background:linear-gradient(135deg,var(--m),var(--s));flex-direction:column;align-items:center;justify-content:center;color:#fff;gap:4px;font-size:.8rem;padding:8px;text-align:center}
 .pic .ph b{font-size:2.4rem;color:var(--t)}.miss .ph{display:flex}
 .pic{aspect-ratio:var(--a,4/5)}
-.gal{columns:2;column-gap:18px;margin-top:10px}
-.gal .pic{break-inside:avoid;margin-bottom:22px;cursor:zoom-in;display:block;width:100%}
+.gal{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:22px 18px;margin:10px auto 0;max-width:900px}
+.gal .pic{cursor:zoom-in;display:block;width:calc(50% - 12px)}
 .gal .pic:hover,.gal .pic:focus-visible{transform:rotate(0) scale(1.05) translateY(-4px);z-index:3;outline:3px solid var(--t)}
-@media(min-width:760px){.gal{columns:4}}
+@media(min-width:760px){.gal .pic{width:calc(25% - 14px)}}
 /* scratch */
 .sc{position:relative}.sc canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:26px;touch-action:none;cursor:crosshair;transition:opacity 1s;z-index:3}
 .sc.done canvas{opacity:0;pointer-events:none}
@@ -254,6 +254,8 @@ lb.onclick=e=>{if(e.target===lb||e.target.tagName==='BUTTON')closeLB()};addEvent
 const au=$('#au'),mp=$('#mp');
 mp.onclick=()=>{if(au.paused){au.play().then(()=>{mp.classList.add('on');mp.setAttribute('aria-label','Pause music')}).catch(()=>{mp.title='Add your song at audio/birthday-song.mp3'})}else{au.pause();mp.classList.remove('on');mp.setAttribute('aria-label','Play music')}};
 au.onerror=()=>{mp.title='Add your song at audio/birthday-song.mp3'};
+/* browsers block true autoplay, so the song starts on her very first tap/touch anywhere */
+addEventListener('pointerdown',e=>{if(e.target.closest('#mp'))return;if(au.paused)au.play().then(()=>{mp.classList.add('on');mp.setAttribute('aria-label','Pause music')}).catch(()=>{})},{once:true,capture:true});
 </script>
 </body>
 </html>
